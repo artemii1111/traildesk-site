@@ -1,0 +1,15 @@
+{
+  "name": "traildesk-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "node scripts/check-site.mjs"
+  },
+  "dependencies": {
+    "astro": "7.4.0",
+    "@astrojs/sitemap": "3.7.4"
+  }
+}

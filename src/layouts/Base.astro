@@ -1,0 +1,74 @@
+---
+import '../styles/site.css';
+import { SITE, REPO, VERSION } from '../consts';
+
+interface Props {
+  t: any;
+  path: string;            // path without the language prefix, e.g. "/"
+}
+const { t, path } = Astro.props;
+const isRu = t.lang === 'ru';
+const url = (lang: string) => `${SITE}${lang === 'ru' ? '/ru' : ''}${path}`;
+const canonical = url(t.lang);
+
+// Structured data: what the product is and the FAQ — read by search engines and AI assistants.
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'TrailDesk',
+    description: t.meta.description,
+    url: canonical,
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Project management',
+    operatingSystem: 'Linux (Docker)',
+    softwareVersion: VERSION,
+    license: 'https://www.gnu.org/licenses/agpl-3.0.html',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    codeRepository: REPO,
+    inLanguage: t.lang,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: t.lang,
+    mainEntity: t.faq.items.map((i: any) => ({
+      '@type': 'Question',
+      name: i.q,
+      acceptedAnswer: { '@type': 'Answer', text: i.a },
+    })),
+  },
+];
+---
+<!doctype html>
+<html lang={t.lang}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{t.meta.title}</title>
+  <meta name="description" content={t.meta.description}>
+  <link rel="canonical" href={canonical}>
+  <link rel="alternate" hreflang="en" href={url('en')}>
+  <link rel="alternate" hreflang="ru" href={url('ru')}>
+  <link rel="alternate" hreflang="x-default" href={url('en')}>
+  <link rel="alternate" type="text/markdown" title="llms.txt" href="/llms.txt">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#00A1E8">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TrailDesk">
+  <meta property="og:title" content={t.meta.title}>
+  <meta property="og:description" content={t.meta.description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={`${SITE}/og.png`}>
+  <meta property="og:locale" content={isRu ? 'ru_RU' : 'en_US'}>
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</head>
+<body>
+  <slot />
+</body>
+</html>

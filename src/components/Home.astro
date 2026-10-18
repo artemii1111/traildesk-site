@@ -1,0 +1,155 @@
+---
+import { REPO, DOCS, DISCUSSIONS, RELEASES, INSTALL, VERSION } from '../consts';
+
+interface Props { t: any }
+const { t } = Astro.props;
+const home = t.lang === 'ru' ? '/ru/' : '/';
+const other = t.lang === 'ru' ? '/' : '/ru/';
+---
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href={home} aria-label="TrailDesk">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--blue)"/><path d="M9 22l5-6 4 3 5-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      TrailDesk
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#how">{t.nav.how}</a>
+      <a href="#features">{t.nav.features}</a>
+      <a href="#install">{t.nav.install}</a>
+      <a href="#faq">{t.nav.faq}</a>
+    </nav>
+    <div class="top-end">
+      <a class="lang" href={other} hreflang={t.lang === 'ru' ? 'en' : 'ru'}>{t.lang === 'ru' ? 'EN' : 'RU'}</a>
+      <a class="btn btn-ghost" href={REPO}>{t.nav.github}</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="hero-text">
+      <p class="eyebrow">{t.hero.eyebrow}</p>
+      <h1>{t.hero.title}</h1>
+      <p class="lead">{t.hero.lead}</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#install">{t.hero.primary}</a>
+        <a class="btn btn-ghost" href={REPO}>{t.hero.secondary}</a>
+      </div>
+      <p class="note">{t.hero.note} <a href={RELEASES}>v{VERSION}</a></p>
+    </div>
+
+    <div class="stage" aria-label={t.demo.pageTitle}>
+      <figure class="chat card">
+        <figcaption class="card-h"><span class="dot"></span>{t.demo.chatTitle}</figcaption>
+        <div class="msg">
+          <b>{t.demo.client}</b>
+          <p>{t.demo.clientMsg}</p>
+        </div>
+        <div class="msg msg-bot">
+          <b>{t.demo.bot}</b>
+          <p>{t.demo.botMsg}</p>
+        </div>
+      </figure>
+
+      <figure class="board card">
+        <figcaption class="card-h">{t.demo.pageTitle}</figcaption>
+        <ul class="rows">
+          {t.demo.rows.map((r: any) => (
+            <li><span class="num">{r.n}</span><span class="ttl">{r.t}</span><span class={`pill pill-${r.k}`}>{r.s}</span></li>
+          ))}
+        </ul>
+        <div class="ask">
+          <p>{t.demo.question}</p>
+          <div class="ask-btns">{t.demo.answers.map((a: string) => <span class="chip">{a}</span>)}</div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>{t.problem.title}</h2>
+      <div class="grid3">
+        {t.problem.items.map((i: any) => (
+          <article><h3>{i.h}</h3><p>{i.p}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="wrap section">
+    <h2>{t.how.title}</h2>
+    <ol class="steps">
+      {t.how.steps.map((s: any, i: number) => (
+        <li><span class="step-n">{i + 1}</span><h3>{s.h}</h3><p>{s.p}</p></li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="features" class="wrap section">
+    <h2>{t.features.title}</h2>
+    <dl class="features">
+      {t.features.items.map((f: any) => (
+        <div><dt>{f.h}</dt><dd>{f.p}</dd></div>
+      ))}
+    </dl>
+  </section>
+
+  <section id="install" class="band">
+    <div class="wrap install">
+      <div>
+        <h2>{t.install.title}</h2>
+        <p class="lead">{t.install.lead}</p>
+        <a class="btn btn-ghost" href={DOCS}>{t.install.docs}</a>
+      </div>
+      <ol class="cmds">
+        {INSTALL.map((c, i) => (
+          <li>
+            <span class="cmd-label">{i + 1}. {t.install.steps[i]}</span>
+            <div class="code"><pre><code>{c}</code></pre><button type="button" class="copy" data-copy={c}>{t.copy}</button></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq" class="wrap section faq">
+    <h2>{t.faq.title}</h2>
+    {t.faq.items.map((f: any) => (
+      <details><summary>{f.q}</summary><p>{f.a}</p></details>
+    ))}
+  </section>
+
+  <section class="wrap cta">
+    <h2>{t.cta.title}</h2>
+    <div class="actions">
+      <a class="btn btn-primary" href={DOCS}>{t.cta.primary}</a>
+      <a class="btn btn-ghost" href={DISCUSSIONS}>{t.cta.secondary}</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p>TrailDesk v{VERSION} · {t.footer.license}</p>
+    <nav aria-label="Footer">
+      <a href={REPO}>{t.footer.links.github}</a>
+      <a href={`${REPO}/tree/main/docs`}>{t.footer.links.docs}</a>
+      <a href={DISCUSSIONS}>{t.footer.links.discussions}</a>
+      <a href={RELEASES}>{t.footer.links.releases}</a>
+      <a href="/llms.txt">{t.footer.links.llms}</a>
+      <a href={other} hreflang={t.lang === 'ru' ? 'en' : 'ru'}>{t.footer.lang}</a>
+    </nav>
+  </div>
+</footer>
+
+<script is:inline define:vars={{ copied: t.copied, copy: t.copy }}>
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-copy]');
+    if (!b || !navigator.clipboard) return;
+    navigator.clipboard.writeText(b.dataset.copy).then(() => {
+      b.textContent = copied;
+      setTimeout(() => { b.textContent = copy; }, 1500);
+    });
+  });
+</script>
