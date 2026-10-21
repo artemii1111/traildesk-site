@@ -2,36 +2,33 @@
 export default {
   lang: 'en',
   meta: {
-    title: 'TrailDesk — a backlog your client actually reads',
+    title: 'TrailDesk — from a chat to a shipped update',
     description:
       'Open-source, self-hosted bridge between a client and a dev team: a Telegram bot in the project chat, ' +
       'a backlog page for the client, statuses derived from GitHub. AGPL-3.0.',
   },
-  nav: { how: 'How it works', features: 'Features', install: 'Install', faq: 'FAQ', github: 'GitHub' },
+  nav: { how: 'How it works', install: 'Install', docs: 'Docs', community: 'Community', github: 'GitHub' },
   hero: {
-    eyebrow: 'Open source · self-hosted · AGPL-3.0',
-    title: 'A backlog your client actually reads',
+    // Headline lines; *word* gets the lime highlight.
+    lines: ['From a chat', 'to a *shipped*', 'update.'],
+    title: 'From a chat to a shipped update',
     lead:
-      'The client writes in the Telegram chat and checks a simple backlog page. The team keeps working in GitHub. ' +
-      'Nobody sets statuses by hand — TrailDesk derives them from pull requests, branches and deployments.',
-    primary: 'Install in 5 minutes',
-    secondary: 'View on GitHub',
-    note: 'Free. Runs on your server with Docker.',
+      'TrailDesk connects people who need things done with people who build them. ' +
+      'From conversations to tasks, progress to plain-English updates.',
   },
   demo: {
-    chatTitle: 'Project chat',
-    client: 'Anna, client',
-    clientMsg: '#task the "Buy" button does nothing on iPhone',
-    bot: 'TrailDesk',
-    botMsg: 'Task #128 created — the conversation and the screenshot are attached.',
-    pageTitle: 'Backlog · Bookshop',
-    rows: [
-      { n: '#128', t: 'The "Buy" button does nothing on iPhone', s: 'Taken', k: 'taken' },
-      { n: '#121', t: 'Delivery cost in the cart', s: 'Waiting for your decision', k: 'decide' },
-      { n: '#117', t: 'New search by author', s: 'Live', k: 'done' },
-    ],
-    question: 'Show delivery cost before or after the address is entered?',
-    answers: ['Before', 'After'],
+    label: 'How a request travels through TrailDesk',
+    notes: ['Client writes in Telegram', 'TrailDesk creates a task', 'The team works in GitHub', 'And you see real results'],
+    client: 'Client',
+    time1: '10:24',
+    clientMsg: '#task Add a PDF export to the website',
+    issueRef: 'GitHub · #1287',
+    issueTitle: 'Add PDF export',
+    tags: ['enhancement', 'frontend'],
+    status: 'In progress',
+    commits: '2 commits',
+    doneMsg: 'Shipped! PDF export is live',
+    time2: '15:42',
   },
   problem: {
     title: 'Clients don’t open GitHub. Teams don’t leave it.',
@@ -61,8 +58,8 @@ export default {
     ],
   },
   install: {
-    title: 'Install in 5 minutes',
-    lead: 'A Linux server with Docker and a domain pointing to it. Two files — the image comes from GitHub.',
+    title: 'Install on your server',
+    lead: 'A Linux server with Docker and a domain pointing to it. About 5 minutes to start, 15–20 more to set up the first project. Two files — the image comes from GitHub.',
     steps: ['Download two files', 'Fill in .env', 'Start', 'Open your domain — the first-run wizard asks for this code'],
     docs: 'Step-by-step guide',
   },
@@ -79,7 +76,8 @@ export default {
   },
   cta: { title: 'Try it on your next project', primary: 'Read the install guide', secondary: 'Ask in Discussions' },
   footer: {
-    license: 'Open source under GNU AGPL-3.0',
+    slogan: 'Less chaos, more progress.',
+    license: 'Open source — AGPLv3',
     links: { github: 'GitHub', docs: 'Documentation', discussions: 'Discussions', releases: 'Releases', llms: 'llms.txt' },
     lang: 'По-русски',
   },
