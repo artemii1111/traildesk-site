@@ -7,7 +7,7 @@ export default {
       'Open-source, self-hosted bridge between a client and a dev team: a Telegram bot in the project chat, ' +
       'a backlog page for the client, statuses derived from GitHub. AGPL-3.0.',
   },
-  nav: { how: 'How it works', install: 'Install', docs: 'Docs', community: 'Community', github: 'GitHub' },
+  nav: { how: 'How it works', install: 'Install', docs: 'Docs', community: 'Community', github: 'GitHub', menu: 'Menu' },
   hero: {
     // Headline lines; *word* gets the lime highlight.
     lines: ['From a chat', 'to a *shipped*', 'update.'],
