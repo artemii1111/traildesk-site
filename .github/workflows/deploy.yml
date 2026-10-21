@@ -1,11 +1,18 @@
 name: Deploy
 
 # Every push to main builds the site and publishes it to GitHub Pages (traildesk.space).
+# The docs pages are taken from docs/ of the TrailDesk repository at every build; the main repository
+# also triggers a rebuild when its docs change (repository_dispatch "docs-updated"), and a daily run
+# catches anything missed.
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  repository_dispatch:
+    types: [docs-updated]
+  schedule:
+    - cron: "17 3 * * *"
 
 permissions:
   contents: read
@@ -21,6 +28,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Fresh docs from the TrailDesk repository. While it is private this needs the secret
+      # TRAILDESK_DOCS_TOKEN (read access to its contents); without it the copy in src/content/docs is used.
+      - name: Check out the TrailDesk docs
+        id: docs
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          repository: artemii1111/traildesk
+          path: _traildesk
+          sparse-checkout: docs
+          token: ${{ secrets.TRAILDESK_DOCS_TOKEN || github.token }}
+      - name: Sync the docs
+        if: steps.docs.outcome == 'success'
+        run: node scripts/sync-docs.mjs _traildesk
+      - name: Docs source
+        if: steps.docs.outcome != 'success'
+        run: echo "::warning::TrailDesk docs not reachable (private repo without TRAILDESK_DOCS_TOKEN) — using the copy in src/content/docs"
       - uses: actions/setup-node@v4
         with:
           node-version: "22"

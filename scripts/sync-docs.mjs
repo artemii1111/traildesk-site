@@ -1,6 +1,6 @@
 // Copies the documentation from the TrailDesk repository into the site: node scripts/sync-docs.mjs ../traildesk
 // Links between docs become site pages (/docs/<name>/), other relative links point to the repository on GitHub.
-// Run it after the docs change in the main repository and commit the result.
+// The site build (.github/workflows/deploy.yml) runs it on a fresh checkout; src/content/docs keeps the last copy.
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
