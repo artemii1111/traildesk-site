@@ -45,7 +45,7 @@ jobs:
       - name: Docs source
         if: steps.docs.outcome != 'success'
         run: echo "::warning::TrailDesk docs not reachable (private repo without TRAILDESK_DOCS_TOKEN) — using the copy in src/content/docs"
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: npm
