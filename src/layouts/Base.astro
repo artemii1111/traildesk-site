@@ -11,7 +11,7 @@ const isRu = t.lang === 'ru';
 const url = (lang: string) => `${SITE}${lang === 'ru' ? '/ru' : ''}${path}`;
 const canonical = url(t.lang);
 
-// Structured data: what the product is and the FAQ — read by search engines and AI assistants.
+// Structured data: what the product is — read by search engines and AI assistants.
 const ld = [
   {
     '@context': 'https://schema.org',
@@ -29,16 +29,6 @@ const ld = [
     codeRepository: REPO,
     inLanguage: t.lang,
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    inLanguage: t.lang,
-    mainEntity: t.faq.items.map((i: any) => ({
-      '@type': 'Question',
-      name: i.q,
-      acceptedAnswer: { '@type': 'Answer', text: i.a },
-    })),
-  },
 ];
 ---
 <!doctype html>
@@ -54,7 +44,7 @@ const ld = [
   <link rel="alternate" hreflang="x-default" href={url('en')}>
   <link rel="alternate" type="text/markdown" title="llms.txt" href="/llms.txt">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <meta name="theme-color" content="#00A1E8">
+  <meta name="theme-color" content="#fafafa">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TrailDesk">
   <meta property="og:title" content={t.meta.title}>
@@ -65,7 +55,7 @@ const ld = [
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono&family=JetBrains+Mono:wght@400&family=Manrope:wght@400;500;600;700;800&display=swap">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
 </head>
 <body>

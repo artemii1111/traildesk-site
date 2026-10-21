@@ -4,9 +4,9 @@ export const DOCS = `${REPO}/blob/main/docs/install.md`;
 export const DISCUSSIONS = `${REPO}/discussions`;
 export const RELEASES = `${REPO}/releases`;
 export const IMAGE = 'ghcr.io/artemii1111/traildesk';
-export const VERSION = '0.1.0';
+export const VERSION = '0.2.0';
 
-// The commands shown in "Install in 5 minutes" — the same as in docs/install.md.
+// The install commands — the same as in docs/install.md.
 export const INSTALL = [
   'mkdir traildesk && cd traildesk\n' +
     'curl -fsSLO https://raw.githubusercontent.com/artemii1111/traildesk/main/docker-compose.yml\n' +
