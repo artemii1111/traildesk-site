@@ -2,6 +2,9 @@
 title: "TrailDesk inside your Django site"
 description: "The Docker installation is the easy way. If you already run a Django project, TrailDesk can be one more app in it, at any address — for example https://example.com/desk/."
 order: 6
+lang: en
+translated: true
+source: "docs/embed.md"
 ---
 
 The [Docker installation](/docs/install/) is the easy way. If you already run a Django project, TrailDesk can be one more
@@ -91,5 +94,5 @@ Attachments use your `STORAGES['default']`. With files on disk, serve `MEDIA_URL
 
 ## A working example
 
-[`examples/host_site/`](https://github.com/artemii1111/traildesk/tree/main/examples/host_site/) is a minimal site with TrailDesk under `/desk/`. CI builds the
+[`examples/host_site/`](https://github.com/artemii1111/traildesk/tree/main/examples/host_site//) is a minimal site with TrailDesk under `/desk/`. CI builds the
 package, installs it there and opens the pages on every change.

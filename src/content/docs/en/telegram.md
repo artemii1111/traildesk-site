@@ -2,6 +2,9 @@
 title: "Telegram bots"
 description: "TrailDesk uses two kinds of bots. Both are created in @BotFather with /newbot; one bot can play both roles."
 order: 1
+lang: en
+translated: true
+source: "docs/telegram.md"
 ---
 
 TrailDesk uses two kinds of bots. Both are created in [@BotFather](https://t.me/BotFather) with `/newbot`;

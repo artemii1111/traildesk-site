@@ -2,6 +2,9 @@
 title: "Development"
 description: "See CONTRIBUTING.md for the setup, tests and pull requests. This page is a map of the code."
 order: 8
+lang: en
+translated: true
+source: "docs/development.md"
 ---
 
 See [CONTRIBUTING.md](https://github.com/artemii1111/traildesk/blob/main/.github/CONTRIBUTING.md) for the setup, tests and pull requests. This page is a map of the code.

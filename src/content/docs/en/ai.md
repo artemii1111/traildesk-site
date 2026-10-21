@@ -2,6 +2,9 @@
 title: "AI"
 description: "AI is optional — without it everything works except task summaries, the question card, task triage (type and area) and the text of the weekly report."
 order: 3
+lang: en
+translated: true
+source: "docs/ai.md"
 ---
 
 AI is optional — without it everything works except task summaries, the question card, task triage (type and area)

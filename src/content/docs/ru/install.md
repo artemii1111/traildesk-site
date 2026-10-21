@@ -2,6 +2,9 @@
 title: "Installation"
 description: "TrailDesk runs as a set of Docker containers: web (pages and API), worker and beat (background jobs and schedule), Postgres, Redis and, optionally, Caddy for HTTPS and poller for Telegram without a webhook."
 order: 0
+lang: ru
+translated: false
+source: "docs/install.md"
 ---
 
 TrailDesk runs as a set of Docker containers: **web** (pages and API), **worker** and **beat** (background jobs
@@ -19,8 +22,8 @@ no server and no domain needed.
 | Docker + Compose v2.23+ | on a Linux server (1 CPU, 2 GB RAM is enough to start) | on your computer |
 | Domain | a domain or subdomain with an **A record** to the server; ports **80** and **443** open | not needed |
 | Telegram | a **login bot** and a **project bot** from [@BotFather](https://t.me/BotFather) (one bot can do both); the project's Telegram chat where the bot is an admin | the same |
-| GitHub | a repository and a fine-grained token — [github.md](/docs/github/) | the same |
-| AI | optional — [ai.md](/docs/ai/) | optional |
+| GitHub | a repository and a fine-grained token — [github.md](/ru/docs/github/) | the same |
+| AI | optional — [ai.md](/ru/docs/ai/) | optional |
 
 ## Try it locally
 
@@ -52,7 +55,7 @@ curl -fsSL https://raw.githubusercontent.com/artemii1111/traildesk/main/.env.exa
 
 ## 2. Fill in `.env`
 
-Every setting is described in the file itself and in [configuration.md](/docs/configuration/). The minimum:
+Every setting is described in the file itself and in [configuration.md](/ru/docs/configuration/). The minimum:
 
 ```bash
 SECRET_KEY=...                  # openssl rand -base64 48
@@ -115,10 +118,10 @@ Then press **Log in**, confirm in the bot — you are the owner.
 
 In **Settings** (`/settings/`):
 
-1. **Workspace → Telegram bots** — add a project bot (it may be the login bot too). See [telegram.md](/docs/telegram/).
+1. **Workspace → Telegram bots** — add a project bot (it may be the login bot too). See [telegram.md](/ru/docs/telegram/).
 2. **+ New project** → **Bot and chat** — pick the bot and the project chat.
-3. **Repository** — `org/repo`, a token and the webhook. See [github.md](/docs/github/).
-4. **Workspace → AI** — optional. See [ai.md](/docs/ai/).
+3. **Repository** — `org/repo`, a token and the webhook. See [github.md](/ru/docs/github/).
+4. **Workspace → AI** — optional. See [ai.md](/ru/docs/ai/).
 5. **People in the project** — invite the client and the team with their roles.
 
 ## Without the browser

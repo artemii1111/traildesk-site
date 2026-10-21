@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
+import { docsFor } from '../../docs';
 import Base from '../../layouts/Base.astro';
 import Shell from '../../components/Shell.astro';
 import DocPage from '../../components/DocPage.astro';
 import t from '../../i18n/en';
 
 export async function getStaticPaths() {
-  return (await getCollection('docs')).map((d) => ({ params: { slug: d.id }, props: { title: d.data.title, description: d.data.description } }));
+  return (await docsFor('en')).map((d) => ({ params: { slug: d.slug }, props: { title: d.data.title, description: d.data.description } }));
 }
 const { slug } = Astro.params;
 const { title, description } = Astro.props;

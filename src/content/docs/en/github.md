@@ -2,6 +2,9 @@
 title: "GitHub"
 description: "The team works in a GitHub repository as usual. TrailDesk reads issues, pull requests, branches and deployments, and writes issues, comments and labels when the client acts on the page or in the chat."
 order: 2
+lang: en
+translated: true
+source: "docs/github.md"
 ---
 
 The team works in a GitHub repository as usual. TrailDesk reads issues, pull requests, branches and deployments,

@@ -1,37 +1,31 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
+import { docsFor } from '../docs';
 import { REPO } from '../consts';
 import { href } from '../nav';
 
 interface Props { t: any; slug: string }
 const { t, slug } = Astro.props;
-const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
-const i = docs.findIndex((d) => d.id === slug);
+const docs = await docsFor(t.lang);
+const i = docs.findIndex((d) => d.slug === slug);
 const doc = docs[i];
 const { Content } = await render(doc);
-// Ссылки внутри текста ведут на английские адреса (/docs/…); на русском сайте — на /ru/docs/….
 const prev = docs[i - 1], next = docs[i + 1];
 ---
 <section class="sub doc">
   <nav class="doc-nav" aria-label={t.doc.contents}>
     <a class="doc-up" href={href(t.lang, 'docs')}>{t.pages.docs.title}</a>
-    <ul>{docs.map((d) => <li><a href={href(t.lang, 'docs', d.id)} aria-current={d.id === slug ? 'page' : undefined}>{d.data.title}</a></li>)}</ul>
+    <ul>{docs.map((d) => <li><a href={href(t.lang, 'docs', d.slug)} aria-current={d.slug === slug ? 'page' : undefined}>{d.data.title}</a></li>)}</ul>
   </nav>
-  <article class="prose" lang="en" data-lang={t.lang}>
-    {t.pages.docs.note && <p class="doc-note">{t.pages.docs.note}</p>}
+  <article class="prose" lang={doc.data.translated ? t.lang : 'en'}>
+    {!doc.data.translated && <p class="doc-note">{t.doc.fallback}</p>}
     <h1>{doc.data.title}</h1>
     <Content />
     <p class="doc-pager">
-      {prev ? <a href={href(t.lang, 'docs', prev.id)}>← {prev.data.title}</a> : <span></span>}
-      {next && <a href={href(t.lang, 'docs', next.id)}>{next.data.title} →</a>}
+      {prev ? <a href={href(t.lang, 'docs', prev.slug)}>← {prev.data.title}</a> : <span></span>}
+      {next && <a href={href(t.lang, 'docs', next.slug)}>{next.data.title} →</a>}
     </p>
-    <p class="doc-edit"><a href={`${REPO}/blob/main/docs/${slug}.md`}>{t.doc.edit} ↗</a></p>
+    <p class="doc-edit"><a href={`${REPO}/blob/main/${doc.data.source}`}>{t.doc.edit} ↗</a></p>
   </article>
 </section>
 
-<script is:inline>
-  // На русском сайте ссылки между разделами документации — тоже на русские адреса.
-  document.querySelectorAll('.prose[data-lang="ru"] a[href^="/docs/"]').forEach((a) => {
-    a.setAttribute('href', '/ru' + a.getAttribute('href'));
-  });
-</script>
