@@ -74,7 +74,8 @@ const ld = [
       };
       const type = (from, to) => {
         const a = place(from), b = place(to);
-        if (a.ru !== b.ru || a.path === b.path) return 'none';    // смена языка — без слайда
+        // смена языка и переход между страницами одного раздела (документы) — без слайда
+        if (a.ru !== b.ru || a.path === b.path || a.i === b.i) return 'none';
         return b.i >= a.i ? 'forward' : 'backward';
       };
       addEventListener('pageswap', (e) => {

@@ -4,6 +4,16 @@ import { href } from '../nav';
 
 interface Props { t: any }
 const { t } = Astro.props;
+
+// Строки команды: комментарий, продолжение (после «\\») или новая команда — у неё значок «$».
+const lines = (cmd: string) => {
+  let cont = false;
+  return cmd.split('\n').map((text) => {
+    const kind = text.startsWith('#') ? 'note' : cont ? 'cont' : 'cmd';
+    cont = text.trimEnd().endsWith('\\');
+    return { text, kind };
+  });
+};
 ---
 <section class="sub split split-install">
   <div>
@@ -15,9 +25,13 @@ const { t } = Astro.props;
   </div>
   <ol class="cmds">
     {INSTALL.map((c, i) => (
-      <li>
-        <span class="cmd-label">{i + 1}. {t.install.steps[i]}</span>
-        <div class="code"><pre><code>{c}</code></pre><button type="button" class="copy" data-copy={c}>{t.copy}</button></div>
+      <li class="panel cmd">
+        <div class="cmd-head">
+          <span class="step-n">0{i + 1}</span>
+          <span class="cmd-label">{t.install.steps[i]}</span>
+          <button type="button" class="copy" data-copy={c}>{t.copy}</button>
+        </div>
+        <pre class="cmd-code"><code>{lines(c).map((l) => <span class={`ln ln-${l.kind}`}>{l.text}</span>)}</code></pre>
       </li>
     ))}
   </ol>

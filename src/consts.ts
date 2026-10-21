@@ -9,9 +9,9 @@ export const VERSION = '0.2.0';
 // The install commands — the same as in docs/install.md.
 export const INSTALL = [
   'mkdir traildesk && cd traildesk\n' +
-    'curl -fsSLO https://raw.githubusercontent.com/artemii1111/traildesk/main/docker-compose.yml\n' +
-    'curl -fsSL https://raw.githubusercontent.com/artemii1111/traildesk/main/.env.example -o .env',
-  'nano .env    # SECRET_KEY, TRAILDESK_ENCRYPTION_KEY, POSTGRES_PASSWORD, TRAILDESK_DOMAIN',
+    'curl -fsSLO \\\n  https://raw.githubusercontent.com/artemii1111/traildesk/main/docker-compose.yml\n' +
+    'curl -fsSL -o .env \\\n  https://raw.githubusercontent.com/artemii1111/traildesk/main/.env.example',
+  '# SECRET_KEY, TRAILDESK_ENCRYPTION_KEY, POSTGRES_PASSWORD, TRAILDESK_DOMAIN\nnano .env',
   'docker compose --profile https up -d',
-  'docker compose exec web python manage.py traildesk_setup --code',
+  'docker compose exec web \\\n  python manage.py traildesk_setup --code',
 ];
