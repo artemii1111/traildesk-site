@@ -11,7 +11,7 @@ const isRu = t.lang === 'ru';
 const url = (lang: string) => `${SITE}${lang === 'ru' ? '/ru' : ''}${path}`;
 const canonical = url(t.lang);
 
-// Structured data: what the product is and the FAQ — read by search engines and AI assistants.
+// Structured data: what the product is — read by search engines and AI assistants.
 const ld = [
   {
     '@context': 'https://schema.org',
@@ -28,16 +28,6 @@ const ld = [
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     codeRepository: REPO,
     inLanguage: t.lang,
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    inLanguage: t.lang,
-    mainEntity: t.faq.items.map((i: any) => ({
-      '@type': 'Question',
-      name: i.q,
-      acceptedAnswer: { '@type': 'Answer', text: i.a },
-    })),
   },
 ];
 ---

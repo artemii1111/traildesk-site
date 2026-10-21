@@ -11,7 +11,7 @@ for (const [page, lang] of [['index.html', 'en'], ['ru/index.html', 'ru']]) {
   if (!html.includes(`<html lang="${lang}"`)) fail.push(`${page}: lang is not ${lang}`);
   for (const h of ['en', 'ru', 'x-default']) if (!html.includes(`hreflang="${h}"`)) fail.push(`${page}: no hreflang ${h}`);
   const ld = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
-  try { const data = JSON.parse(ld[1]); if (!data.some((d) => d['@type'] === 'FAQPage')) fail.push(`${page}: no FAQPage`); }
+  try { const data = JSON.parse(ld[1]); if (!data.some((d) => d['@type'] === 'SoftwareApplication')) fail.push(`${page}: no SoftwareApplication`); }
   catch { fail.push(`${page}: JSON-LD missing or invalid`); }
   for (const [, id] of html.matchAll(/href="#([\w-]+)"/g)) if (!html.includes(`id="${id}"`)) fail.push(`${page}: broken anchor #${id}`);
 }
