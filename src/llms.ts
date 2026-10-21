@@ -4,7 +4,7 @@ import en from './i18n/en';
 import ru from './i18n/ru';
 import { SITE, REPO, DISCUSSIONS, RELEASES, IMAGE, VERSION, INSTALL } from './consts';
 
-const docs = (p: string) => `${REPO}/blob/main/docs/${p}`;
+const docs = (p: string) => `${SITE}/docs/${p.replace(/\.md$/, '')}/`;
 
 export function llms(): string {
   return `# TrailDesk
@@ -21,7 +21,8 @@ bot, GitHub repository and backlog page. The interface and bot messages are curr
 - [Telegram bots](${docs('telegram.md')}): login bot and project bots, chat, forum topics
 - [GitHub](${docs('github.md')}): token, webhook, labels, how statuses are derived
 - [AI](${docs('ai.md')}): any OpenAI-compatible provider, spend and monthly budget, privacy
-- [Configuration](${docs('configuration.md')}): every .env setting
+- [Configuration](${docs('configuration.md')}): every .env setting and the TRAILDESK dictionary
+- [Inside your Django site](${docs('embed.md')}): pip install, settings, URLs under any prefix
 - [Operations](${docs('operations.md')}): updates, backups, logs, health check
 
 ## Project

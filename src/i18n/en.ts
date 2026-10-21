@@ -30,6 +30,27 @@ export default {
     doneMsg: 'Shipped! PDF export is live',
     time2: '15:42',
   },
+  // Section pages: /how/, /install/, /docs/.
+  pages: {
+    how: { title: 'How it works', lead: 'The client stays in the chat, the team stays in GitHub. TrailDesk keeps both in sync and explains progress in plain words.' },
+    install: { title: 'Install', time: 'About 5 minutes to start, 15–20 more to set up the first project.' },
+    docs: { title: 'Documentation', lead: 'Installing, connecting and running TrailDesk.', note: '' },
+  },
+  need: {
+    title: 'You need',
+    items: ['A Linux server with Docker', 'A domain pointing to it (or try it locally without one)', 'A bot from @BotFather', 'A GitHub token for the project repository'],
+  },
+  board: {
+    title: 'Backlog · Bookshop',
+    rows: [
+      { n: '#128', t: 'The "Buy" button does nothing on iPhone', s: 'Taken', k: 'taken' },
+      { n: '#121', t: 'Delivery cost in the cart', s: 'Waiting for your decision', k: 'decide' },
+      { n: '#117', t: 'New search by author', s: 'Live', k: 'done' },
+    ],
+    question: 'Show delivery cost before or after the address is entered?',
+    answers: ['Before', 'After'],
+  },
+  doc: { contents: 'Contents', prev: 'Previous', next: 'Next', edit: 'Edit on GitHub' },
   problem: {
     title: 'Clients don’t open GitHub. Teams don’t leave it.',
     items: [

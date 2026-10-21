@@ -1,5 +1,5 @@
 // Checks of the built site (dist/): both languages, hreflang, structured data, llms.txt, links to anchors.
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 
 const fail = [];
 const read = (p) => readFileSync(new URL(`../dist/${p}`, import.meta.url), 'utf8');
@@ -16,5 +16,24 @@ for (const [page, lang] of [['index.html', 'en'], ['ru/index.html', 'ru']]) {
   for (const [, id] of html.matchAll(/href="#([\w-]+)"/g)) if (!html.includes(`id="${id}"`)) fail.push(`${page}: broken anchor #${id}`);
 }
 if (!read('llms.txt').startsWith('# TrailDesk')) fail.push('llms.txt must start with "# TrailDesk"');
+
+// Every page: section pages exist in both languages, and internal links lead to built pages.
+const pages = [];
+const walk = (dir) => readdirSync(dir).forEach((f) => {
+  const p = `${dir}/${f}`;
+  if (statSync(p).isDirectory()) walk(p); else if (f === 'index.html') pages.push(p);
+});
+walk(new URL('../dist', import.meta.url).pathname);
+const dist = new URL('../dist', import.meta.url).pathname;
+for (const need of ['how', 'install', 'docs', 'docs/install', 'ru/how', 'ru/install', 'ru/docs', 'ru/docs/install']) {
+  if (!existsSync(`${dist}/${need}/index.html`)) fail.push(`missing page /${need}/`);
+}
+for (const p of pages) {
+  const html = readFileSync(p, 'utf8');
+  for (const [, url] of html.matchAll(/href="(\/[^"#?]*)/g)) {
+    const target = url.endsWith('/') ? `${dist}${url}index.html` : `${dist}${url}`;
+    if (!existsSync(target)) fail.push(`${p.slice(dist.length)}: broken link ${url}`);
+  }
+}
 if (fail.length) { console.error(fail.join('\n')); process.exit(1); }
 console.log('site ok');

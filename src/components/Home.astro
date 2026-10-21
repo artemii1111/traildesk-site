@@ -1,114 +1,67 @@
 ---
-import { REPO, DOCS, DISCUSSIONS } from '../consts';
-
 interface Props { t: any }
 const { t } = Astro.props;
-const home = t.lang === 'ru' ? '/ru/' : '/';
-const other = t.lang === 'ru' ? '/' : '/ru/';
-const otherLang = t.lang === 'ru' ? 'en' : 'ru';
 
 // «to a *shipped*» → кусок текста и выделенное слово.
 const parts = (line: string) => line.split(/\*([^*]+)\*/).map((text, i) => ({ text, hl: i % 2 === 1 }));
 const d = t.demo;
 ---
-<div class="page">
-  <header class="header">
-    <a class="brand" href={home} aria-label="TrailDesk"><img src="/logo.svg" alt="" width="42" height="42">traildesk</a>
-    <nav class="nav" aria-label="Main">
-      <a href="#workflow">{t.nav.how}</a>
-      <a href={DOCS}>{t.nav.install}</a>
-      <a href={`${REPO}/tree/main/docs`}>{t.nav.docs}</a>
-      <a href={DISCUSSIONS}>{t.nav.community}</a>
-    </nav>
-    <div class="header-end">
-      <a class="github" href={REPO}>{t.nav.github} ↗</a>
-      <a class="locale-switch" href={other} hreflang={otherLang}>{otherLang.toUpperCase()}</a>
-      <!-- Меню для узких экранов: <details> раскрывается без скриптов. -->
-      <details class="menu">
-        <summary aria-label={t.nav.menu}><span></span><span></span><span></span></summary>
-        <nav class="menu-panel" aria-label="Main">
-          <a href="#workflow">{t.nav.how}</a>
-          <a href={DOCS}>{t.nav.install} ↗</a>
-          <a href={`${REPO}/tree/main/docs`}>{t.nav.docs} ↗</a>
-          <a href={DISCUSSIONS}>{t.nav.community} ↗</a>
-          <a href={REPO}>{t.nav.github} ↗</a>
-        </nav>
-      </details>
-    </div>
-  </header>
+<section class="hero">
+  <div class="hero-text">
+    <h1 class="headline">
+      {t.hero.lines.map((line: string) => (
+        <span class="line">{parts(line).map((p) => p.hl ? <span class="highlight">{p.text}</span> : p.text)}</span>
+      ))}
+    </h1>
+    <p class="description">{t.hero.lead}</p>
+  </div>
 
-  <main class="main">
-    <section class="hero">
-      <div class="hero-text">
-        <h1 class="headline">
-          {t.hero.lines.map((line: string) => (
-            <span class="line">{parts(line).map((p) => p.hl ? <span class="highlight">{p.text}</span> : p.text)}</span>
-          ))}
-        </h1>
-        <p class="description">{t.hero.lead}</p>
+  <!-- Схема: карточки, подписи и стрелки — в одних координатах, поэтому не разъезжаются ни на
+       какой ширине: на компьютере 650×620 (arrows-d), на телефоне 360×640 (arrows-m). -->
+  <figure class="diagram" id="workflow" aria-label={d.label}>
+    <svg class="arrows arrows-d" viewBox="0 0 650 620" aria-hidden="true">
+      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#111" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <path d="M196 190 Q200 236 136 262" marker-end="url(#arr)"/>
+      <path d="M172 308 Q232 296 292 314" marker-end="url(#arr)"/>
+      <path d="M458 412 Q462 446 410 470" marker-end="url(#arr)"/>
+    </svg>
+    <svg class="arrows arrows-m" viewBox="0 0 360 640" aria-hidden="true">
+      <defs><marker id="arr-m" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#111" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <path d="M112 134 Q114 172 78 192" marker-end="url(#arr-m)"/>
+      <path d="M74 266 Q78 296 104 306" marker-end="url(#arr-m)"/>
+      <path d="M214 464 Q218 490 186 502" marker-end="url(#arr-m)"/>
+    </svg>
+
+    <p class="note n1">{d.notes[0]}</p>
+    <div class="card chat">
+      <div class="card-meta">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#2aabee"/><path d="M5.4 11.7 16.9 7.3c.5-.2 1 .1.8.9l-1.9 9.1c-.1.6-.5.8-1 .5l-2.9-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-3 5.4-4.9c.2-.2 0-.3-.3-.1l-6.7 4.2-2.9-.9c-.6-.2-.6-.6.1-.9z" fill="#fff"/></svg>
+        <span class="muted">{d.client} · {d.time1}</span>
       </div>
+      <p>{d.clientMsg}</p>
+    </div>
 
-      <!-- Схема: карточки, подписи и стрелки — в одних координатах, поэтому не разъезжаются ни на
-           какой ширине: на компьютере 650×620 (arrows-d), на телефоне 360×640 (arrows-m). -->
-      <figure class="diagram" id="workflow" aria-label={d.label}>
-        <svg class="arrows arrows-d" viewBox="0 0 650 620" aria-hidden="true">
-          <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#111" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-          <path d="M196 190 Q200 236 136 262" marker-end="url(#arr)"/>
-          <path d="M172 308 Q232 296 292 314" marker-end="url(#arr)"/>
-          <path d="M458 412 Q462 446 410 470" marker-end="url(#arr)"/>
-        </svg>
-        <svg class="arrows arrows-m" viewBox="0 0 360 640" aria-hidden="true">
-          <defs><marker id="arr-m" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#111" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-          <path d="M112 134 Q114 172 78 192" marker-end="url(#arr-m)"/>
-          <path d="M74 266 Q78 296 104 306" marker-end="url(#arr-m)"/>
-          <path d="M214 464 Q218 490 186 502" marker-end="url(#arr-m)"/>
-        </svg>
+    <p class="note n2">{d.notes[1]}</p>
+    <div class="hub"><img src="/logo.svg" alt="TrailDesk" width="48" height="48"></div>
 
-        <p class="note n1">{d.notes[0]}</p>
-        <div class="card chat">
-          <div class="card-meta">
-            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#2aabee"/><path d="M5.4 11.7 16.9 7.3c.5-.2 1 .1.8.9l-1.9 9.1c-.1.6-.5.8-1 .5l-2.9-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-3 5.4-4.9c.2-.2 0-.3-.3-.1l-6.7 4.2-2.9-.9c-.6-.2-.6-.6.1-.9z" fill="#fff"/></svg>
-            <span class="muted">{d.client} · {d.time1}</span>
-          </div>
-          <p>{d.clientMsg}</p>
-        </div>
+    <p class="note n3">{d.notes[2]}</p>
+    <div class="card issue">
+      <p class="issue-ref">
+        <svg class="ic-s" viewBox="0 0 16 16" aria-hidden="true"><path fill="#111" d="M8 0a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.5 7.5 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.6 3.9.3.3.6.8.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 0z"/></svg>
+        <strong>{d.issueRef}</strong>
+      </p>
+      <p class="issue-title">{d.issueTitle}</p>
+      <p class="tags"><span class="tag">{d.tags[0]}</span><span>{d.tags[1]}</span></p>
+      <p class="muted status">
+        <span><svg class="ic-s" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.5V8l2.4 1.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>{d.status}</span>
+        <span><svg class="ic-s" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="3.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="4.5" cy="12.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="11.5" cy="5.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 5.3v5.4M11.5 7.3c0 2.4-3.5 2.2-6.4 3.8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>{d.commits}</span>
+      </p>
+    </div>
 
-        <p class="note n2">{d.notes[1]}</p>
-        <div class="hub"><img src="/logo.svg" alt="TrailDesk" width="48" height="48"></div>
-
-        <p class="note n3">{d.notes[2]}</p>
-        <div class="card issue">
-          <p class="issue-ref">
-            <svg class="ic-s" viewBox="0 0 16 16" aria-hidden="true"><path fill="#111" d="M8 0a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.5 7.5 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.6 3.9.3.3.6.8.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 0z"/></svg>
-            <strong>{d.issueRef}</strong>
-          </p>
-          <p class="issue-title">{d.issueTitle}</p>
-          <p class="tags"><span class="tag">{d.tags[0]}</span><span>{d.tags[1]}</span></p>
-          <p class="muted status">
-            <span><svg class="ic-s" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.5V8l2.4 1.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>{d.status}</span>
-            <span><svg class="ic-s" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="3.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="4.5" cy="12.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="11.5" cy="5.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 5.3v5.4M11.5 7.3c0 2.4-3.5 2.2-6.4 3.8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>{d.commits}</span>
-          </p>
-        </div>
-
-        <p class="note n4">{d.notes[3]}</p>
-        <div class="card done">
-          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#d9ff60"/><path d="M6.5 12.5l3.6 3.4 7.4-7.8" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div><p>{d.doneMsg}</p><span class="muted">{d.time2}</span></div>
-        </div>
-      </figure>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <a href={REPO}>{t.footer.license}</a>
-    <span><i class="dot"></i>{t.footer.slogan}</span>
-  </footer>
-</div>
-
-<script is:inline>
-  // Меню закрывается после выбора пункта и по нажатию мимо.
-  document.addEventListener('click', (e) => {
-    const menu = document.querySelector('.menu[open]');
-    if (menu && (!menu.contains(e.target) || e.target.closest('.menu-panel a'))) menu.open = false;
-  });
-</script>
+    <p class="note n4">{d.notes[3]}</p>
+    <div class="card done">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#d9ff60"/><path d="M6.5 12.5l3.6 3.4 7.4-7.8" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><p>{d.doneMsg}</p><span class="muted">{d.time2}</span></div>
+    </div>
+  </figure>
+</section>
