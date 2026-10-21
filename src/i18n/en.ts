@@ -50,7 +50,7 @@ export default {
     question: 'Show delivery cost before or after the address is entered?',
     answers: ['Before', 'After'],
   },
-  doc: { contents: 'Contents', prev: 'Previous', next: 'Next', edit: 'Edit on GitHub' },
+  doc: { contents: 'Contents', prev: 'Previous', next: 'Next', edit: 'Edit on GitHub', fallback: 'This page is not translated yet.' },
   problem: {
     title: 'Clients don’t open GitHub. Teams don’t leave it.',
     items: [

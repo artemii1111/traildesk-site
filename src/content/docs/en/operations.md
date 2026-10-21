@@ -2,6 +2,9 @@
 title: "Operations"
 description: "Database migrations run automatically when the web container starts. Check docker compose ps and /health/."
 order: 5
+lang: en
+translated: true
+source: "docs/operations.md"
 ---
 
 ## Update

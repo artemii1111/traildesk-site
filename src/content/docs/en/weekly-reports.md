@@ -2,6 +2,9 @@
 title: "Weekly reports"
 description: "The Reports tab of a backlog page shows one report per week. The numbers of the week (closed, new, days with a release) are counted from GitHub — don't repeat them in the text."
 order: 7
+lang: en
+translated: true
+source: "docs/weekly-reports.md"
 ---
 
 The **Reports** tab of a backlog page shows one report per week. The numbers of the week (closed, new, days with a

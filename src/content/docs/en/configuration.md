@@ -2,6 +2,9 @@
 title: "Configuration"
 description: "Installation-wide settings live in .env (see .env.example). Everything about the team, bots, projects, GitHub, AI and people is configured in the browser on the Settings screen and stored in the database."
 order: 4
+lang: en
+translated: true
+source: "docs/configuration.md"
 ---
 
 Installation-wide settings live in `.env` (see [.env.example](https://github.com/artemii1111/traildesk/blob/main/.env.example)). Everything about the team, bots,

@@ -2,6 +2,9 @@
 title: "Installation"
 description: "TrailDesk runs as a set of Docker containers: web (pages and API), worker and beat (background jobs and schedule), Postgres, Redis and, optionally, Caddy for HTTPS and poller for Telegram without a webhook."
 order: 0
+lang: en
+translated: true
+source: "docs/install.md"
 ---
 
 TrailDesk runs as a set of Docker containers: **web** (pages and API), **worker** and **beat** (background jobs

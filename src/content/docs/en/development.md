@@ -2,6 +2,9 @@
 title: "Development"
 description: "See CONTRIBUTING.md for the setup, tests and pull requests. This page is a map of the code."
 order: 8
+lang: en
+translated: true
+source: "docs/development.md"
 ---
 
 See [CONTRIBUTING.md](https://github.com/artemii1111/traildesk/blob/main/.github/CONTRIBUTING.md) for the setup, tests and pull requests. This page is a map of the code.
@@ -57,6 +60,13 @@ TrailDesk works both at the site root and under a prefix (`traildesk/tests/test_
 Settings: installation settings come from `traildesk.core.app_settings` (the `TRAILDESK` dictionary), never from
 `django.conf.settings` directly; project settings come from `conf.cfg()`. New keys go to `app_settings.DEFAULTS`,
 `config/settings.py` (from `.env`) and the table in [configuration.md](/docs/configuration/#traildesk-settings).
+
+## Documentation
+
+`docs/` is the English original, `docs/ru/` the Russian translation with the same file names and the same headings
+order. Change both in one pull request; a page missing in `docs/ru/` shows the English text on the Russian site.
+The site [traildesk.space](https://traildesk.space) builds its docs pages from these folders and rebuilds itself
+when `docs/` changes on `main` (`.github/workflows/docs-site.yml`).
 
 ## Old issue numbers in comments
 
