@@ -27,12 +27,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Fresh docs from the TrailDesk repository. While it is private this needs the secret
       # TRAILDESK_DOCS_TOKEN (read access to its contents); without it the copy in src/content/docs is used.
       - name: Check out the TrailDesk docs
         id: docs
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         continue-on-error: true
         with:
           repository: artemii1111/traildesk
