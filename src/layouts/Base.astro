@@ -5,8 +5,12 @@ import { SITE, REPO, VERSION } from '../consts';
 interface Props {
   t: any;
   path: string;            // path without the language prefix, e.g. "/"
+  title?: string;          // page name for sections; the home page uses t.meta.title
+  description?: string;
 }
 const { t, path } = Astro.props;
+const title = Astro.props.title ? `${Astro.props.title} — TrailDesk` : t.meta.title;
+const description = Astro.props.description || t.meta.description;
 const isRu = t.lang === 'ru';
 const url = (lang: string) => `${SITE}${lang === 'ru' ? '/ru' : ''}${path}`;
 const canonical = url(t.lang);
@@ -36,8 +40,8 @@ const ld = [
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>{t.meta.title}</title>
-  <meta name="description" content={t.meta.description}>
+  <title>{title}</title>
+  <meta name="description" content={description}>
   <link rel="canonical" href={canonical}>
   <link rel="alternate" hreflang="en" href={url('en')}>
   <link rel="alternate" hreflang="ru" href={url('ru')}>
@@ -47,8 +51,8 @@ const ld = [
   <meta name="theme-color" content="#fafafa">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TrailDesk">
-  <meta property="og:title" content={t.meta.title}>
-  <meta property="og:description" content={t.meta.description}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
   <meta property="og:url" content={canonical}>
   <meta property="og:image" content={`${SITE}/og.png`}>
   <meta property="og:locale" content={isRu ? 'ru_RU' : 'en_US'}>
@@ -57,6 +61,31 @@ const ld = [
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono&family=JetBrains+Mono:wght@400&family=Manrope:wght@400;500;600;700;800&display=swap">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <!-- Переход между разделами: страница уезжает влево или вправо — по порядку разделов в меню
+       (Главная → Как это работает → Установка → Документация). Браузеры без View Transitions
+       просто открывают страницу. -->
+  <script is:inline>
+    (() => {
+      const order = ['', 'how', 'install', 'docs'];
+      const place = (url) => {
+        const u = new URL(url, location.href);
+        const parts = u.pathname.replace(/^\/ru(?=\/)/, '').split('/').filter(Boolean);
+        return { i: Math.max(0, order.indexOf(parts[0] || '')), ru: u.pathname.startsWith('/ru/'), path: u.pathname };
+      };
+      const type = (from, to) => {
+        const a = place(from), b = place(to);
+        if (a.ru !== b.ru || a.path === b.path) return 'none';    // смена языка — без слайда
+        return b.i >= a.i ? 'forward' : 'backward';
+      };
+      addEventListener('pageswap', (e) => {
+        if (e.viewTransition && e.activation?.entry?.url) e.viewTransition.types.add(type(location.href, e.activation.entry.url));
+      });
+      addEventListener('pagereveal', (e) => {
+        const from = window.navigation?.activation?.from?.url;
+        if (e.viewTransition && from) e.viewTransition.types.add(type(from, location.href));
+      });
+    })();
+  </script>
 </head>
 <body>
   <slot />

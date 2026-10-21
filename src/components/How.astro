@@ -1,0 +1,32 @@
+---
+interface Props { t: any }
+const { t } = Astro.props;
+const b = t.board;
+---
+<section class="sub split">
+  <div>
+    <h1 class="title">{t.pages.how.title}</h1>
+    <p class="description">{t.pages.how.lead}</p>
+    <ol class="steps">
+      {t.how.steps.map((s: any, i: number) => (
+        <li><span class="step-n">0{i + 1}</span><div><h2>{s.h}</h2><p>{s.p}</p></div></li>
+      ))}
+    </ol>
+  </div>
+
+  <!-- Как выглядит страница бэклога у заказчика (пример, не снимок экрана). -->
+  <figure class="board" aria-label={b.title}>
+    <div class="panel board-card">
+      <p class="board-h"><span class="dot"></span>{b.title}</p>
+      <ul class="rows">
+        {b.rows.map((r: any) => (
+          <li><span class="num">{r.n}</span><span class="ttl">{r.t}</span><span class={`pill pill-${r.k}`}>{r.s}</span></li>
+        ))}
+      </ul>
+    </div>
+    <div class="panel ask">
+      <p>{b.question}</p>
+      <p class="ask-btns">{b.answers.map((a: string) => <span class="chip">{a}</span>)}</p>
+    </div>
+  </figure>
+</section>

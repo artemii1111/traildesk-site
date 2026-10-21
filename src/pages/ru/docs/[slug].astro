@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Shell from '../../../components/Shell.astro';
+import DocPage from '../../../components/DocPage.astro';
+import t from '../../../i18n/ru';
+
+export async function getStaticPaths() {
+  return (await getCollection('docs')).map((d) => ({ params: { slug: d.id }, props: { title: d.data.title, description: d.data.description } }));
+}
+const { slug } = Astro.params;
+const { title, description } = Astro.props;
+---
+<Base t={t} path={`/docs/${slug}/`} title={title} description={description}><Shell t={t} section="docs" path={`/docs/${slug}/`}><DocPage t={t} slug={slug} /></Shell></Base>

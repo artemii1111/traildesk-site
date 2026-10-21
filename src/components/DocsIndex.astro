@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import { href } from '../nav';
+
+interface Props { t: any }
+const { t } = Astro.props;
+const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="sub">
+  <h1 class="title">{t.pages.docs.title}</h1>
+  <p class="description">{t.pages.docs.lead} {t.pages.docs.note}</p>
+  <ul class="doc-grid">
+    {docs.map((d) => (
+      <li><a class="panel doc-tile" href={href(t.lang, 'docs', d.id)}><strong>{d.data.title}</strong><span>{d.data.description}</span></a></li>
+    ))}
+  </ul>
+</section>

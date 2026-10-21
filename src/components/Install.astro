@@ -1,0 +1,35 @@
+---
+import { INSTALL } from '../consts';
+import { href } from '../nav';
+
+interface Props { t: any }
+const { t } = Astro.props;
+---
+<section class="sub split split-install">
+  <div>
+    <h1 class="title">{t.pages.install.title}</h1>
+    <p class="description">{t.pages.install.time}</p>
+    <h2 class="need-h">{t.need.title}</h2>
+    <ul class="need">{t.need.items.map((i: string) => <li>{i}</li>)}</ul>
+    <a class="more" href={href(t.lang, 'docs', 'install')}>{t.install.docs} →</a>
+  </div>
+  <ol class="cmds">
+    {INSTALL.map((c, i) => (
+      <li>
+        <span class="cmd-label">{i + 1}. {t.install.steps[i]}</span>
+        <div class="code"><pre><code>{c}</code></pre><button type="button" class="copy" data-copy={c}>{t.copy}</button></div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<script is:inline define:vars={{ copied: t.copied, copy: t.copy }}>
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-copy]');
+    if (!b || !navigator.clipboard) return;
+    navigator.clipboard.writeText(b.dataset.copy).then(() => {
+      b.textContent = copied;
+      setTimeout(() => { b.textContent = copy; }, 1500);
+    });
+  });
+</script>

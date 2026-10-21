@@ -1,0 +1,55 @@
+---
+// Шапка, меню и подвал — общие для всех страниц сайта. Содержимое страницы — в <slot />.
+import { REPO, DISCUSSIONS } from '../consts';
+import { href, type Section } from '../nav';
+
+interface Props { t: any; section: Section; path: string }
+const { t, section, path } = Astro.props;
+const lang = t.lang;
+const otherLang = lang === 'ru' ? 'en' : 'ru';
+const other = (otherLang === 'ru' ? '/ru' : '') + path;
+const links = [
+  { s: 'how', label: t.nav.how },
+  { s: 'install', label: t.nav.install },
+  { s: 'docs', label: t.nav.docs },
+] as const;
+---
+<div class="page">
+  <header class="header">
+    <a class="brand" href={href(lang, 'home')} aria-label="TrailDesk"><img src="/logo.svg" alt="" width="42" height="42">traildesk</a>
+    <nav class="nav" aria-label="Main">
+      {links.map((l) => <a href={href(lang, l.s)} aria-current={section === l.s ? 'page' : undefined}>{l.label}</a>)}
+      <a href={DISCUSSIONS}>{t.nav.community}</a>
+    </nav>
+    <div class="header-end">
+      <a class="github" href={REPO}>{t.nav.github} ↗</a>
+      <a class="locale-switch" href={other} hreflang={otherLang}>{otherLang.toUpperCase()}</a>
+      <!-- Меню для узких экранов: <details> раскрывается без скриптов. -->
+      <details class="menu">
+        <summary aria-label={t.nav.menu}><span></span><span></span><span></span></summary>
+        <nav class="menu-panel" aria-label="Main">
+          {links.map((l) => <a href={href(lang, l.s)} aria-current={section === l.s ? 'page' : undefined}>{l.label}</a>)}
+          <a href={DISCUSSIONS}>{t.nav.community} ↗</a>
+          <a href={REPO}>{t.nav.github} ↗</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <main class={`main main-${section}`}>
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <a href={REPO}>{t.footer.license}</a>
+    <span><i class="dot"></i>{t.footer.slogan}</span>
+  </footer>
+</div>
+
+<script is:inline>
+  // Меню закрывается после выбора пункта и по нажатию мимо.
+  document.addEventListener('click', (e) => {
+    const menu = document.querySelector('.menu[open]');
+    if (menu && (!menu.contains(e.target) || e.target.closest('.menu-panel a'))) menu.open = false;
+  });
+</script>
