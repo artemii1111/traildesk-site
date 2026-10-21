@@ -29,6 +29,17 @@ p { margin: 0; }
 .github { font-size: 14px; }
 .locale-switch { font: 12px var(--mono); border: 1px solid #dedede; padding: 7px 10px; border-radius: 6px; }
 .locale-switch:hover { background: var(--lime); text-decoration: none; }
+.menu { display: none; position: relative; }
+.menu summary { list-style: none; cursor: pointer; width: 40px; height: 34px; border: 1px solid #dedede; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
+.menu summary::-webkit-details-marker { display: none; }
+.menu summary span { display: block; width: 16px; height: 1.6px; background: var(--ink); transition: transform .2s, opacity .2s; }
+.menu[open] summary { background: var(--lime); }
+.menu[open] summary span:nth-child(1) { transform: translateY(5.6px) rotate(45deg); }
+.menu[open] summary span:nth-child(2) { opacity: 0; }
+.menu[open] summary span:nth-child(3) { transform: translateY(-5.6px) rotate(-45deg); }
+.menu-panel { position: absolute; right: 0; top: calc(100% + 10px); z-index: 10; min-width: 240px; background: var(--card); border-radius: 14px; box-shadow: 0 18px 48px #0000001f; padding: 8px; display: flex; flex-direction: column; }
+.menu-panel a { padding: 12px 14px; border-radius: 9px; font-size: 16px; font-weight: 600; }
+.menu-panel a:hover { background: var(--bg); text-decoration: none; }
 
 /* hero */
 .hero { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5%; align-items: center; padding: 24px 0; }
@@ -41,6 +52,7 @@ p { margin: 0; }
 /* diagram: one coordinate system 650×620 for cards, notes and arrows */
 .diagram { position: relative; margin: 0; width: min(100%, 720px, calc((100svh - 210px) * 650 / 620)); min-width: 360px; justify-self: center; aspect-ratio: 650 / 620; container-type: inline-size; }
 .arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.arrows-m { display: none; }
 .arrows path { fill: none; stroke: #111; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 260; animation: draw 1.6s ease both; }
 .arrows path:nth-of-type(2) { animation-delay: .35s; }
 .arrows path:nth-of-type(3) { animation-delay: .7s; }
@@ -73,30 +85,36 @@ p { margin: 0; }
 .dot { display: inline-block; background: var(--lime); width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; vertical-align: -1px; }
 
 @media (max-width: 1050px) {
-  .nav { display: none; }
+  .nav, .github { display: none; }
+  .menu { display: block; }
   .hero { grid-template-columns: 1fr; padding-top: 70px; gap: 56px; }
   .headline { font-size: clamp(55px, 9vw, 95px); }
   .diagram { width: min(100%, 680px); min-width: 0; }
 }
 
 /* phone: the diagram becomes a column — readable text instead of a shrunken picture */
+/* phone: the same picture in its own 360×640 coordinates — arrows, notes and cards stay together */
 @media (max-width: 640px) {
   .page { padding: 22px; }
   .brand { font-size: 23px; }
   .brand img { width: 34px; }
-  .header-end { gap: 14px; }
-  .hero { padding-top: 64px; }
+  .header-end { gap: 12px; }
+  .hero { padding-top: 56px; gap: 40px; }
   .headline { font-size: clamp(43px, 11.5vw, 67px); margin-bottom: 28px; }
   .description { font-size: 14px; }
-  .diagram { aspect-ratio: auto; container-type: normal; display: flex; flex-direction: column; gap: 10px; }
-  .arrows { display: none; }
-  .diagram > * { position: static; transform: none; width: auto; height: auto; }
-  .card { font-size: 14px; padding: 16px; border-radius: 14px; }
-  .note { font-size: 11px; white-space: normal; margin-top: 14px; }
-  .note::before { content: "↓ "; }
-  .n1::before { content: none; }
-  .n1 { margin-top: 0; }
-  .hub { width: 56px; border-radius: 12px; }
+  .diagram { width: 100%; aspect-ratio: 360 / 640; }
+  .arrows-d { display: none; }
+  .arrows-m { display: block; }
+  .card { font-size: 3.9cqw; padding: 4.2cqw; border-radius: 3.9cqw; }
+  .note { font-size: 3cqw; }
+  .chat { left: 3%; top: 5.3%; width: 85%; height: 14.4%; transform: rotate(-2.5deg); }
+  .hub { left: 11.1%; top: 30.6%; width: 17.8%; border-radius: 3.6cqw; }
+  .issue { left: 11.1%; top: 48.4%; width: 85%; height: 23.4%; }
+  .done { left: 3%; top: 79%; width: 85%; height: 12.8%; }
+  .n1 { left: 4.4%; top: .9%; }
+  .n2 { left: 34.4%; top: 33.4%; }
+  .n3 { left: 41.7%; top: 44%; }
+  .n4 { left: 33.3%; top: 95.2%; }
   .footer { font-size: 8px; }
 }
 

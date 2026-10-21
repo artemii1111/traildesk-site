@@ -23,6 +23,17 @@ const d = t.demo;
     <div class="header-end">
       <a class="github" href={REPO}>{t.nav.github} ↗</a>
       <a class="locale-switch" href={other} hreflang={otherLang}>{otherLang.toUpperCase()}</a>
+      <!-- Меню для узких экранов: <details> раскрывается без скриптов. -->
+      <details class="menu">
+        <summary aria-label={t.nav.menu}><span></span><span></span><span></span></summary>
+        <nav class="menu-panel" aria-label="Main">
+          <a href="#workflow">{t.nav.how}</a>
+          <a href={DOCS}>{t.nav.install} ↗</a>
+          <a href={`${REPO}/tree/main/docs`}>{t.nav.docs} ↗</a>
+          <a href={DISCUSSIONS}>{t.nav.community} ↗</a>
+          <a href={REPO}>{t.nav.github} ↗</a>
+        </nav>
+      </details>
     </div>
   </header>
 
@@ -37,14 +48,20 @@ const d = t.demo;
         <p class="description">{t.hero.lead}</p>
       </div>
 
-      <!-- Схема: карточки, подписи и стрелки — в одних координатах (650×620), поэтому не разъезжаются
-           ни на какой ширине; на телефоне — столбиком. -->
+      <!-- Схема: карточки, подписи и стрелки — в одних координатах, поэтому не разъезжаются ни на
+           какой ширине: на компьютере 650×620 (arrows-d), на телефоне 360×640 (arrows-m). -->
       <figure class="diagram" id="workflow" aria-label={d.label}>
-        <svg class="arrows" viewBox="0 0 650 620" aria-hidden="true">
+        <svg class="arrows arrows-d" viewBox="0 0 650 620" aria-hidden="true">
           <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#111" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
           <path d="M196 190 Q200 236 136 262" marker-end="url(#arr)"/>
           <path d="M172 308 Q232 296 292 314" marker-end="url(#arr)"/>
           <path d="M458 412 Q462 446 410 470" marker-end="url(#arr)"/>
+        </svg>
+        <svg class="arrows arrows-m" viewBox="0 0 360 640" aria-hidden="true">
+          <defs><marker id="arr-m" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#111" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+          <path d="M112 134 Q114 172 78 192" marker-end="url(#arr-m)"/>
+          <path d="M74 266 Q78 296 104 306" marker-end="url(#arr-m)"/>
+          <path d="M214 464 Q218 490 186 502" marker-end="url(#arr-m)"/>
         </svg>
 
         <p class="note n1">{d.notes[0]}</p>
@@ -88,3 +105,10 @@ const d = t.demo;
   </footer>
 </div>
 
+<script is:inline>
+  // Меню закрывается после выбора пункта и по нажатию мимо.
+  document.addEventListener('click', (e) => {
+    const menu = document.querySelector('.menu[open]');
+    if (menu && (!menu.contains(e.target) || e.target.closest('.menu-panel a'))) menu.open = false;
+  });
+</script>
