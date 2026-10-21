@@ -1,52 +1,53 @@
 ---
-title: "Telegram bots"
-description: "TrailDesk uses two kinds of bots. Both are created in @BotFather with /newbot; one bot can play both roles."
+title: "Боты Telegram"
+description: "TrailDesk использует боты двух видов. Оба создаются в @BotFather командой /newbot; один бот может выполнять обе роли."
 order: 1
 lang: ru
-translated: false
-source: "docs/telegram.md"
+translated: true
+source: "docs/ru/telegram.md"
 ---
 
-TrailDesk uses two kinds of bots. Both are created in [@BotFather](https://t.me/BotFather) with `/newbot`;
-one bot can play both roles.
+TrailDesk использует боты двух видов. Оба создаются в [@BotFather](https://t.me/BotFather) командой `/newbot`;
+один бот может выполнять обе роли.
 
-| | Login bot | Project bot |
+| | Бот входа | Бот проекта |
 |---|---|---|
-| What for | everybody logs in to the pages through it (a 6-digit code) | lives in the project chat: tasks, digest, reminders |
-| How many | one per installation | one per project, or one for several projects |
-| Where to add | wizard `/setup/` | **Settings → Workspace → Telegram bots** |
+| Зачем | через него все входят на страницы (6-значный код) | живёт в чате проекта: задачи, дайджест, напоминания |
+| Сколько | один на установку | один на проект или один на несколько проектов |
+| Где добавить | мастер `/setup/` | «Настройки» → «Пространство» → «Боты Telegram» |
 
-When you add a bot, TrailDesk checks the token, saves it encrypted and registers the webhook
-`https://<domain>/api/telegram/<id>/webhook/` with its own secret. Telegram can only call HTTPS addresses, so the
-domain must already open over HTTPS.
+Когда вы добавляете бота, TrailDesk проверяет токен, сохраняет его в зашифрованном виде и ставит вебхук
+`https://<domain>/api/telegram/<id>/webhook/` со своим секретом. Telegram обращается только к адресам с HTTPS, поэтому
+домен уже должен открываться по HTTPS.
 
-## The project chat
+## Чат проекта
 
-1. Add the project bot to the chat **as an administrator** — otherwise it doesn't see messages.
-   The chat then appears in **Project → Bot and chat**.
-2. For a forum chat, turn on **Topics** in the chat settings. TrailDesk remembers topics as people write in them;
-   choose where the digest goes.
-3. **Commands and markers** — turn bot commands on or off and limit them by role.
+1. Добавьте бота проекта в чат **администратором** — иначе он не видит сообщений.
+   Затем чат появится в разделе проекта «Бот и чат».
+2. Если чат — форум, включите в его настройках темы. TrailDesk запоминает темы по мере того, как в них пишут;
+   выберите, куда отправлять дайджест («Темы форума»).
+3. «Команды и маркеры» — включите или выключите команды бота и ограничьте их по ролям.
 
-## In the chat
+## В чате
 
-- `#задача <text>` or `/task` as a reply to a message — create a task; the conversation and pictures are attached.
-- `/list` — open tasks, `/report` — what happened today, `/help`.
-- An evening digest at the project's hour (time zone — **Project → Main**).
-- Reminders when someone was asked a question and hasn't answered; only during the project's hours.
+- `#задача <текст>` или `/task` ответом на сообщение — завести задачу; переписка и картинки прикладываются к ней.
+- `/list` — открытые задачи, `/report` — что произошло за день, `/help`.
+- Вечерний дайджест в час проекта (часовой пояс — в разделе проекта «Основное»).
+- Напоминания, если кому-то задали вопрос, а он не ответил; только в рабочие часы проекта.
 
-## Webhook or polling
+## Вебхук или polling
 
-- **Webhook** (default with a domain): Telegram calls `https://<domain>/api/telegram/<id>/webhook/`. Needs HTTPS and
-  a server reachable from the internet.
-- **Polling** (default without a domain): the `poller` service fetches messages of all bots itself
-  (`docker compose --profile polling up -d`). No domain, HTTPS or open ports — for trying TrailDesk locally and for
-  servers that Telegram can't reach. Set `TRAILDESK_TELEGRAM_MODE=polling` to use it with a domain too.
+- **Вебхук** (по умолчанию, если есть домен): Telegram сам обращается к `https://<domain>/api/telegram/<id>/webhook/`.
+  Нужны HTTPS и сервер, доступный из интернета.
+- **Polling** (по умолчанию без домена): сервис `poller` сам забирает сообщения всех ботов
+  (`docker compose --profile polling up -d`). Ни домена, ни HTTPS, ни открытых портов — для пробы TrailDesk на своём
+  компьютере и для серверов, до которых Telegram не достучаться. Чтобы включить его и при наличии домена, задайте
+  `TRAILDESK_TELEGRAM_MODE=polling`.
 
-If a bot's token is revoked in @BotFather, the bot shows an error in **Settings → Telegram bots**; connect it again
-with the new token. After changing the domain, re-register webhooks: `manage.py traildesk_bots --sync`.
+Если токен бота отозван в @BotFather, бот покажет ошибку в «Настройки» → «Боты Telegram»; подключите его заново
+с новым токеном. После смены домена поставьте вебхуки заново: `manage.py traildesk_bots --sync`.
 
-## Telegram is blocked on your server?
+## Telegram заблокирован на вашем сервере?
 
-Use polling (above) or set `TELEGRAM_API_BASE` to a [local Bot API server](https://github.com/tdlib/telegram-bot-api)
-or another proxy for `api.telegram.org`.
+Используйте polling (см. выше) или задайте `TELEGRAM_API_BASE` — адрес [локального сервера Bot API](https://github.com/tdlib/telegram-bot-api)
+или другого прокси для `api.telegram.org`.

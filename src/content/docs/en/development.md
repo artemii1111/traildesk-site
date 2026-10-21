@@ -61,6 +61,13 @@ Settings: installation settings come from `traildesk.core.app_settings` (the `TR
 `django.conf.settings` directly; project settings come from `conf.cfg()`. New keys go to `app_settings.DEFAULTS`,
 `config/settings.py` (from `.env`) and the table in [configuration.md](/docs/configuration/#traildesk-settings).
 
+## Documentation
+
+`docs/` is the English original, `docs/ru/` the Russian translation with the same file names and the same headings
+order. Change both in one pull request; a page missing in `docs/ru/` shows the English text on the Russian site.
+The site [traildesk.space](https://traildesk.space) builds its docs pages from these folders and rebuilds itself
+when `docs/` changes on `main` (`.github/workflows/docs-site.yml`).
+
 ## Old issue numbers in comments
 
 Comments like `(#591)` refer to the tracker of the project TrailDesk was extracted from; they have nothing to do with

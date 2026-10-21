@@ -1,34 +1,34 @@
 ---
-title: "Installation"
-description: "TrailDesk runs as a set of Docker containers: web (pages and API), worker and beat (background jobs and schedule), Postgres, Redis and, optionally, Caddy for HTTPS and poller for Telegram without a webhook."
+title: "Установка"
+description: "TrailDesk работает как набор Docker-контейнеров: web (страницы и API), worker и beat (фоновые задачи и расписание), Postgres, Redis и, по желанию, Caddy для HTTPS и poller для Telegram без вебхука."
 order: 0
 lang: ru
-translated: false
-source: "docs/install.md"
+translated: true
+source: "docs/ru/install.md"
 ---
 
-TrailDesk runs as a set of Docker containers: **web** (pages and API), **worker** and **beat** (background jobs
-and schedule), **Postgres**, **Redis** and, optionally, **Caddy** for HTTPS and **poller** for Telegram without a
-webhook.
+TrailDesk работает как набор Docker-контейнеров: **web** (страницы и API), **worker** и **beat** (фоновые задачи
+и расписание), **Postgres**, **Redis** и, по желанию, **Caddy** для HTTPS и **poller** для Telegram без
+вебхука.
 
-**How long it takes:** starting the containers — about 5 minutes; setting up the first project (bots, chat,
-repository, people) — another 15–20 minutes. Just want to look around first? [Try it locally](#try-it-locally) —
-no server and no domain needed.
+**Сколько это занимает:** запуск контейнеров — около 5 минут; настройка первого проекта (боты, чат,
+репозиторий, люди) — ещё 15–20 минут. Хотите сначала просто посмотреть? [Попробуйте локально](#попробовать-локально) —
+ни сервер, ни домен не нужны.
 
-## What you need
+## Что понадобится
 
-| | For a real installation | To try it locally |
+| | Для настоящей установки | Чтобы попробовать локально |
 |---|---|---|
-| Docker + Compose v2.23+ | on a Linux server (1 CPU, 2 GB RAM is enough to start) | on your computer |
-| Domain | a domain or subdomain with an **A record** to the server; ports **80** and **443** open | not needed |
-| Telegram | a **login bot** and a **project bot** from [@BotFather](https://t.me/BotFather) (one bot can do both); the project's Telegram chat where the bot is an admin | the same |
-| GitHub | a repository and a fine-grained token — [github.md](/ru/docs/github/) | the same |
-| AI | optional — [ai.md](/ru/docs/ai/) | optional |
+| Docker + Compose v2.23+ | на сервере с Linux (для начала хватит 1 CPU и 2 ГБ памяти) | на вашем компьютере |
+| Домен | домен или поддомен с **A-записью** на сервер; открыты порты **80** и **443** | не нужен |
+| Telegram | **бот входа** и **бот проекта** от [@BotFather](https://t.me/BotFather) (один бот может быть обоими); Telegram-чат проекта, где бот — администратор | то же самое |
+| GitHub | репозиторий и fine-grained токен — см. [GitHub](/ru/docs/github/) | то же самое |
+| ИИ | по желанию — см. [ИИ](/ru/docs/ai/) | по желанию |
 
-## Try it locally
+## Попробовать локально
 
-Without a domain TrailDesk switches to local mode by itself: the address is `http://localhost:8000` and Telegram
-messages are fetched by the **poller** service (long polling), so neither HTTPS nor open ports are needed.
+Без домена TrailDesk сам переходит в локальный режим: адрес — `http://localhost:8000`, а сообщения Telegram
+забирает сервис **poller** (long polling), поэтому не нужны ни HTTPS, ни открытые порты.
 
 ```bash
 mkdir traildesk && cd traildesk
@@ -38,14 +38,14 @@ docker compose --profile polling up -d
 docker compose exec web python manage.py traildesk_setup --code
 ```
 
-Open http://localhost:8000 and go through the first-run wizard. Everything works like on a server, except that
-GitHub cannot reach your computer, so the backlog page is rebuilt every 20 minutes and by the refresh button instead
-of instantly. The same polling mode helps on a server that Telegram can't reach: set `TRAILDESK_TELEGRAM_MODE=polling`
-and start with `--profile polling`.
+Откройте http://localhost:8000 и пройдите мастер первого запуска. Всё работает как на сервере, кроме одного:
+GitHub не может достучаться до вашего компьютера, поэтому страница бэклога пересобирается раз в 20 минут и по кнопке
+«Обновить», а не сразу. Тот же режим polling выручит и на сервере, до которого не достучаться Telegram: задайте
+`TRAILDESK_TELEGRAM_MODE=polling` и запускайте с `--profile polling`.
 
-## 1. Get the files
+## 1. Скачать файлы
 
-Only two files are needed on the server — the image is pulled from GitHub Container Registry:
+На сервере нужны только два файла — образ скачивается из GitHub Container Registry:
 
 ```bash
 mkdir traildesk && cd traildesk
@@ -53,9 +53,9 @@ curl -fsSLO https://raw.githubusercontent.com/artemii1111/traildesk/main/docker-
 curl -fsSL https://raw.githubusercontent.com/artemii1111/traildesk/main/.env.example -o .env
 ```
 
-## 2. Fill in `.env`
+## 2. Заполнить `.env`
 
-Every setting is described in the file itself and in [configuration.md](/ru/docs/configuration/). The minimum:
+Каждая настройка описана в самом файле и в разделе [Настройки](/ru/docs/configuration/). Минимум:
 
 ```bash
 SECRET_KEY=...                  # openssl rand -base64 48
@@ -66,27 +66,27 @@ TRAILDESK_BIND=127.0.0.1        # with the built-in Caddy the app port stays pri
 TRAILDESK_IMAGE_TAG=0.2.0       # pin a version; change it when you update
 ```
 
-> Keep `SECRET_KEY` and `TRAILDESK_ENCRYPTION_KEY` safe and never change them later: tokens and keys stored in
-> the database are encrypted with them.
+> Храните `SECRET_KEY` и `TRAILDESK_ENCRYPTION_KEY` в надёжном месте и никогда их потом не меняйте: ими зашифрованы
+> токены и ключи в базе данных.
 
-## 3. Start
+## 3. Запустить
 
 ```bash
 docker compose --profile https up -d
 docker compose ps                 # web should become "healthy" in a minute
 ```
 
-Caddy gets a Let's Encrypt certificate for `TRAILDESK_DOMAIN` on the first request.
+Caddy получит сертификат Let's Encrypt для `TRAILDESK_DOMAIN` при первом запросе.
 
-### Behind your own proxy (nginx, Traefik…)
+### За своим прокси (nginx, Traefik…)
 
-Start without the `https` profile — the app listens on `TRAILDESK_BIND:TRAILDESK_PORT` (default `0.0.0.0:8000`):
+Запускайте без профиля `https` — приложение слушает `TRAILDESK_BIND:TRAILDESK_PORT` (по умолчанию `0.0.0.0:8000`):
 
 ```bash
 docker compose up -d
 ```
 
-Proxy to it and pass the `Host` and `X-Forwarded-Proto` headers. nginx example:
+Проксируйте запросы на него и передавайте заголовки `Host` и `X-Forwarded-Proto`. Пример для nginx:
 
 ```nginx
 server {
@@ -102,31 +102,31 @@ server {
 }
 ```
 
-## 4. First run
+## 4. Первый запуск
 
-Create a **login bot** in [@BotFather](https://t.me/BotFather) (`/newbot`) — everybody logs in to the pages through it.
+Создайте **бота входа** в [@BotFather](https://t.me/BotFather) (`/newbot`) — через него все входят на страницы.
 
-Open `https://desk.example.com/`. The first-run wizard asks for:
+Откройте `https://desk.example.com/`. Мастер первого запуска попросит:
 
-- **installation code** — it protects a fresh installation from strangers:
-  `docker compose exec web python manage.py traildesk_setup --code` (or `docker compose logs web | grep setup`);
-- **team name**, **login bot token** and **your Telegram @username**.
+- **код установки** — он защищает свежую установку от посторонних:
+  `docker compose exec web python manage.py traildesk_setup --code` (или `docker compose logs web | grep setup`);
+- **название команды**, **токен бота входа** и **ваш @username в Telegram**.
 
-Then press **Log in**, confirm in the bot — you are the owner.
+Затем нажмите «Войти» и подтвердите вход в боте — вы владелец.
 
-## 5. First project
+## 5. Первый проект
 
-In **Settings** (`/settings/`):
+В «Настройках» (`/settings/`):
 
-1. **Workspace → Telegram bots** — add a project bot (it may be the login bot too). See [telegram.md](/ru/docs/telegram/).
-2. **+ New project** → **Bot and chat** — pick the bot and the project chat.
-3. **Repository** — `org/repo`, a token and the webhook. See [github.md](/ru/docs/github/).
-4. **Workspace → AI** — optional. See [ai.md](/ru/docs/ai/).
-5. **People in the project** — invite the client and the team with their roles.
+1. «Пространство» → «Боты Telegram» — добавьте бота проекта (им может быть и бот входа). См. [Боты Telegram](/ru/docs/telegram/).
+2. «Новый проект» → «Бот и чат» — выберите бота и чат проекта.
+3. «Репозиторий» — `org/repo`, токен и вебхук. См. [GitHub](/ru/docs/github/).
+4. «Пространство» → «ИИ» — по желанию. См. [ИИ](/ru/docs/ai/).
+5. «Участники проекта» — пригласите заказчика и команду с их ролями.
 
-## Without the browser
+## Без браузера
 
-Everything the wizard does is also available from the command line:
+Всё, что делает мастер, доступно и из командной строки:
 
 ```bash
 docker compose exec web python manage.py traildesk_setup \
@@ -134,9 +134,9 @@ docker compose exec web python manage.py traildesk_setup \
     [--project shop --title "Shop" --bot-token 456:BBB… --chat-id -100… --repo org/repo]
 ```
 
-## From source
+## Из исходного кода
 
-In a clone of the repository `deploy/docker-compose.dev.yml` builds the image from your code:
+В клоне репозитория `deploy/docker-compose.dev.yml` собирает образ из вашего кода:
 
 ```bash
 git clone https://github.com/artemii1111/traildesk && cd traildesk
