@@ -9,7 +9,7 @@
     "check": "node scripts/check-site.mjs"
   },
   "dependencies": {
-    "astro": "7.4.0",
+    "astro": "7.4.4",
     "@astrojs/sitemap": "3.7.4"
   }
 }
