@@ -4,7 +4,7 @@ export const DOCS = `${REPO}/blob/main/docs/install.md`;
 export const DISCUSSIONS = `${REPO}/discussions`;
 export const RELEASES = `${REPO}/releases`;
 export const IMAGE = 'ghcr.io/artemii1111/traildesk';
-export const VERSION = '0.2.0';
+export const VERSION = '0.2.1';
 
 // The install commands — the same as in docs/install.md.
 export const INSTALL = [

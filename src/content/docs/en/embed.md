@@ -16,7 +16,7 @@ app in it, at any address — for example `https://example.com/desk/`.
 pip install "traildesk @ git+https://github.com/artemii1111/traildesk@main"
 ```
 
-Pin a release tag instead of `main` (`@v0.2.0`) once you go live, and read the [changelog](https://github.com/artemii1111/traildesk/blob/main/CHANGELOG.md)
+Pin a release tag instead of `main` (`@v0.2.1`) once you go live, and read the [changelog](https://github.com/artemii1111/traildesk/blob/main/CHANGELOG.md)
 before moving to the next one.
 
 Python 3.12+, Django 6.1. TrailDesk brings Django REST framework, django-cors-headers, Celery, httpx and
