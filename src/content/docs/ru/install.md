@@ -63,7 +63,7 @@ TRAILDESK_ENCRYPTION_KEY=...    # openssl rand -base64 32 | tr '+/' '-_'
 POSTGRES_PASSWORD=...           # openssl rand -hex 16
 TRAILDESK_DOMAIN=desk.example.com
 TRAILDESK_BIND=127.0.0.1        # with the built-in Caddy the app port stays private
-TRAILDESK_IMAGE_TAG=0.2.0       # pin a version; change it when you update
+TRAILDESK_IMAGE_TAG=0.2.1       # pin a version; change it when you update
 ```
 
 > Храните `SECRET_KEY` и `TRAILDESK_ENCRYPTION_KEY` в надёжном месте и никогда их потом не меняйте: ими зашифрованы

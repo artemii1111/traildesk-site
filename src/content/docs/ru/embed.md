@@ -16,7 +16,7 @@ source: "docs/ru/embed.md"
 pip install "traildesk @ git+https://github.com/artemii1111/traildesk@main"
 ```
 
-Когда пойдёте в работу, указывайте тег релиза вместо `main` (`@v0.2.0`) и перед переходом на следующий читайте
+Когда пойдёте в работу, указывайте тег релиза вместо `main` (`@v0.2.1`) и перед переходом на следующий читайте
 [журнал изменений](https://github.com/artemii1111/traildesk/blob/main/CHANGELOG.md).
 
 Python 3.12+, Django 6.1. TrailDesk сам подтянет Django REST framework, django-cors-headers, Celery, httpx и
